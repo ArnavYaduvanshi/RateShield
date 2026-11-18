@@ -1,3 +1,4 @@
+import 'dotenv/config'
 import { getDb } from './db.js'
 
 async function migrate() {

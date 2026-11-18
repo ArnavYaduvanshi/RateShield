@@ -27,7 +27,7 @@ services:
     volumes:
       - postgres_data:/var/lib/postgresql/data
     healthcheck:
-      test: ["CMD-SHELL", "pg_isready -U admin -d rate_limiter"]
+      test: ["CMD-SHELL", "pg_isready -U $${POSTGRES_USER} -d $${POSTGRES_DB}"]
       interval: 10s
       timeout: 5s
       retries: 5
@@ -41,6 +41,9 @@ services:
       - "3000:3000"
     env_file:
       - ./apps/api/.env
+    environment:
+      REDIS_HOST: redis
+      POSTGRES_HOST: postgres
     depends_on:
       postgres:
         condition: service_healthy
