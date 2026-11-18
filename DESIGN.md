@@ -4,7 +4,7 @@ Rate limiter microservice. Other services call `POST /api/check` before doing re
 
 ## Structure
 
-`apps/` for things that run as their own process (api, dashboard). `packages/` for things that get imported (sdk, shared types). Inside `src/`, folders are named after the pattern they implement (`algorithms/`, `decorators/`, `chain/`, `factories/`) instead of generic layers like `controllers/`/`services/`. The folder names should tell you the architecture before you read any code.
+`apps/` for things that run as their own process (api, dashboard). Importable workspace packages (sdk, shared types) live under `apps/package/`. Inside `src/`, folders are named after the pattern they implement (`algorithms/`, `decorators/`, `chain/`, `factories/`) instead of generic layers like `controllers/`/`services/`. The folder names should tell you the architecture before you read any code.
 
 ## Algorithms (Strategy pattern)
 
@@ -38,7 +38,7 @@ Different from the decorators above: this validates whether the request is well-
 
 ## Factories
 
-`RateLimiterFactory` builds the full decorator stack from a client's config, cached per algorithm (not per client) — three possible algorithms means at most three cached stacks, no matter how many clients exist. `HandlerChainFactory` builds the chain, injecting the repository and the rate limiter factory into the handlers that need them.
+`RateLimiterFactory` builds the full decorator stack from a client's config and caches it by API key. `HandlerChainFactory` builds the chain, injecting the repository and the rate limiter factory into the handlers that need them.
 
 ## Repository
 
